@@ -1,0 +1,76 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Food App</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background-color: rgb(222, 234, 243);
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .image{
+            background-image: url('/media/images/qqq.webp');    
+            background-size: cover;
+            height: 400px;
+        }
+        .main{
+            width: 150px;
+            margin-top: 20px;
+            
+        }
+        #cart-total{
+            display: inline-block;
+            text-align: center;
+            color:#fff;
+            background-color: red;
+            width: 16px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 14px;
+            position: absolute;
+            margin-top: 23px;
+            margin-left: 105px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-header mt-0 mb-5 bg-danger text-white image">
+        <div class="row btn float-right mr-5">
+            <a href="{% url 'halal' %}" style="text-decoration: none;color: white;" class="btn btn-lg btn-success ml-5 mt-4"><img src="/media/images/halal.png" width="30px" height="30px" alt="">Halal</a>
+            <p id="cart-total">{{ total_items }}</p>
+            <a class="btn btn-primary btn-lg  ml-5 main" href="{% url 'cart' %}" style="text-decoration: none;color: #fff;"><img src="/media/images/cart4.svg" alt="" width="25px" height="25px" style="margin-right: 10px;">Cart</a>
+            <a  href="{% url 'log_out' %}" class="btn btn-warning btn-lg  ml-5 main">Logout</a>
+        </div>
+    </div>
+
+
+    <div class="container-sm">
+        {% for restaurant in restaurants %}
+            <div class="mb-3 border shadow-lg bg-white" style="height: 200px;display: flex;border-radius: 10px 10px 50px 10px;">
+                <a href="{% url 'restaurant' restaurant.id %}" style="text-decoration: none;color: black;">
+                        <img src="{{ restaurant.image.url }}" class="rounded-lg" style="border-radius: 10px;" alt="" width="400px" height="100%">
+                        <h2 class="" style="font-size: 50px;margin: 20px;display: inline;width: 100%;">{{restaurant.name}}</h2><br>
+                </a>
+                {% for category in restaurant.categories.all|slice:"0:3" %}
+                    <a href="{% url 'categories' category.id %}" style="margin-top: 150px;margin-right: 30px;margin-top: 150px; float: left;">{{ category }}</a>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    
+      
+</body>
+</html>
